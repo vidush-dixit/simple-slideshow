@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#listContainer {
+	display: flex;
+    text-align: center;
+    margin-top: 20px;
+}
+#listContainer>span {
+	width: 15%;
+	color: blue;
+    cursor: pointer;
+    padding: 12px;
+}
+#listContainer>span:hover {
+	transform: scale(1.5);
+}
+#list {
+	display: flex;
+    flex: 1 1 33.33%;
+    align-items: center;
+    overflow: hidden;
+}
+#list span {
+	width: 100%;
+    flex: 0 0 33.33%;
+    background-color: rgba(255, 0, 0, 0.2);
+}
+#list span:hover {
+	background-color: rgba(255, 0, 0, 0.4);
+    transform: scaleY(1.2);
+}
+</style>
+</head>
+
+<body>
+
+<div id="listContainer">
+	<span onclick="scrollToRight()">&lt;</span>
+	<div id="list">
+  		<span onclick="selectElement()">1</span>
+  		<span onclick="selectElement()">2</span>
+  		<span onclick="selectElement()">3</span>
+        <span onclick="selectElement()">4</span>
+  		<span onclick="selectElement()">5</span>
+  		<span onclick="selectElement()">6</span>
+	</div>
+	<span onclick="scrollToLeft()">&gt;</span>
+</div>
+
+<div>Selected Element is: <span id="selection">None</span></div>
+
+<script> 
+function sideScroll(element,direction,speed,distance,step){
+    scrollAmount = 0;
+    var slideTimer = setInterval(function(){
+        if(direction == 'left'){
+            element.scrollLeft -= step;
+        } else {
+            element.scrollLeft += step;
+        }
+        scrollAmount += step;
+        if(scrollAmount >= distance){
+            window.clearInterval(slideTimer);
+        }
+    }, speed);
+}
+function scrollToRight() {
+    var container = document.getElementById('list');
+    sideScroll(container,'left',25,100,10);
+}
+function scrollToLeft() {
+    var container = document.getElementById('list');
+    sideScroll(container,'right',25,100,10);
+}
+
+
+function selectElement() {
+	var evt = window.event || evt; //window.event for IE
+    if (!evt.target) {
+    	evt.target = evt.srcElement; //extend target property for IE
+    } 
+    document.getElementById('selection').innerText = evt.target.innerText;
+}
+</script>
+</body>
+</html>
